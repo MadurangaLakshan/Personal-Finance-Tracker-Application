@@ -1,0 +1,15 @@
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\config\CorsConfig.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\config\FirebaseConfig.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\controller\AuthController.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\controller\FinanceController.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\entity\Expenses.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\entity\Incomes.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\entity\User.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\FinanceTrackerApplication.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\repository\ExpensesRepository.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\repository\IncomesRepository.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\repository\UserRepository.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\service\ExpensesService.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\service\FirebaseTokenVerifier.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\service\IncomesService.java
+F:\Ongoing Projects\FinanceTracker\Backend\src\main\java\com\example\finance_tracker\service\UserService.java

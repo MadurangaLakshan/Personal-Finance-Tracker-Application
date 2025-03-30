@@ -33,12 +33,12 @@ public class ExpensesService {
         return expensesRepository.findByUserId(userId);
     }
 
-    // New method: Get an Income by its id
+
     public Optional<Expenses> getExpenseById(Long id) {
         return expensesRepository.findById(id);
     }
 
-    // New method: Delete an Income by its id
+
     public void deleteExpense(Long id) {
         expensesRepository.deleteById(id);
     }
