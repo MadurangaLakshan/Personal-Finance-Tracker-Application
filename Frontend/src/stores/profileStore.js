@@ -2,6 +2,8 @@ import { create } from "zustand";
 import axios from "axios";
 import { auth } from "../firebaseConfig";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const useProfileStore = create((set) => ({
   profile: {
     email: "",
@@ -21,7 +23,7 @@ const useProfileStore = create((set) => ({
       if (user) {
         const token = await user.getIdToken();
         const response = await axios.get(
-          "http://localhost:8081/api/finance/getProfile",
+          `${BACKEND_URL}/api/finance/getProfile`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const data = response.data;
@@ -59,16 +61,12 @@ const useProfileStore = create((set) => ({
       formData.append("username", username);
       if (profilePicFile) formData.append("profilePic", profilePicFile);
 
-      await axios.post(
-        "http://localhost:8081/api/finance/updateProfile",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axios.post(`${BACKEND_URL}/api/finance/updateProfile`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       // Refresh profile data after update
       useProfileStore.getState().fetchProfile();
     } catch (error) {

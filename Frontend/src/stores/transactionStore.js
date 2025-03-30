@@ -2,6 +2,8 @@ import { create } from "zustand";
 import axios from "axios";
 import { auth } from "../firebaseConfig";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const useTransactionStore = create((set) => ({
   transactions: [],
   income: 0,
@@ -18,7 +20,7 @@ const useTransactionStore = create((set) => ({
       if (user) {
         const token = await user.getIdToken();
         const response = await axios.get(
-          "http://localhost:8081/api/finance/transactions",
+          `${BACKEND_URL}/api/finance/transactions`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         set({ transactions: response.data, loading: false });
@@ -35,7 +37,7 @@ const useTransactionStore = create((set) => ({
       if (user) {
         const token = await user.getIdToken();
         const response = await axios.get(
-          "http://localhost:8081/api/finance/overview",
+          `${BACKEND_URL}/api/finance/overview`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const { totalIncome, totalExpenses, monthlyBreakdown } = response.data;
@@ -60,8 +62,8 @@ const useTransactionStore = create((set) => ({
       const token = await user.getIdToken();
       const endpoint =
         type === "income"
-          ? "http://localhost:8081/api/finance/add-income"
-          : "http://localhost:8081/api/finance/add-expense";
+          ? `${BACKEND_URL}/api/finance/add-income`
+          : `${BACKEND_URL}/api/finance/add-expense`;
 
       await axios.post(endpoint, data, {
         headers: { Authorization: `Bearer ${token}` },
@@ -81,11 +83,9 @@ const useTransactionStore = create((set) => ({
       if (!user) throw new Error("Authentication required");
 
       const token = await user.getIdToken();
-      await axios.put(
-        `http://localhost:8081/api/finance/transactions/${id}`,
-        data,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await axios.put(`${BACKEND_URL}/api/finance/transactions/${id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       useTransactionStore.getState().fetchTransactions();
     } catch (error) {
@@ -100,10 +100,9 @@ const useTransactionStore = create((set) => ({
       if (!user) throw new Error("Authentication required");
 
       const token = await user.getIdToken();
-      await axios.delete(
-        `http://localhost:8081/api/finance/transactions/${id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await axios.delete(`${BACKEND_URL}/api/finance/transactions/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       useTransactionStore.getState().fetchTransactions();
     } catch (error) {

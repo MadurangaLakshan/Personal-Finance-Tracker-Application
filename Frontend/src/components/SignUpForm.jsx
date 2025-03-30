@@ -16,6 +16,7 @@ import themeStore from "../stores/themeStore";
 import googleIcon from "../assets/GoogleSVG.svg";
 import auth2 from "../assets/auth2.png";
 import useAuthStore from "../stores/authStore";
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   const { error, success, loading, signUp, googleSignUp } = useAuthStore();
@@ -27,10 +28,11 @@ const SignUpForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { theme, toggleTheme } = themeStore((state) => state);
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    signUp(email, password, confirmPassword, window.location.pathname);
+    signUp(email, password, confirmPassword, navigate);
   };
 
   return (

@@ -69,8 +69,6 @@ const EntriesListComponent = ({ activePage }) => {
     activePage === "Incomes" ? tx.type === "income" : tx.type === "expense"
   );
 
-  console.log(filteredTransactions);
-
   return (
     <Fade in={true} timeout={400}>
       <Grid item xs={12} sm={6} md={7}>
@@ -80,6 +78,72 @@ const EntriesListComponent = ({ activePage }) => {
           </Typography>
 
           <Box sx={{ mt: 2 }}>
+            {filteredTransactions.length > 0 ? (
+              filteredTransactions.map((entry) => (
+                <Box
+                  key={`${entry.type}-${entry.id}`}
+                  sx={{
+                    mb: 2,
+                    p: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    boxShadow: 2,
+                    borderRadius: 2,
+                  }}
+                >
+                  <Box>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                      {entry.description}
+                    </Typography>
+                    <Typography variant="body2">
+                      Date: {new Date(entry.date).toLocaleDateString("en-GB")}
+                    </Typography>
+                    <Typography variant="body2">
+                      Category: {entry.category}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: activePage === "Expenses" ? "red" : "green",
+                        mt: 1,
+                      }}
+                    >
+                      {activePage === "Expenses"
+                        ? `- $${entry.amount}`
+                        : `+ $${entry.amount}`}
+                    </Typography>
+                  </Box>
+
+                  {/* Action Buttons */}
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleUpdate(entry)}
+                      size="small"
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => handleDelete(entry.id)}
+                      size="small"
+                    >
+                      Delete
+                    </Button>
+                  </Box>
+                </Box>
+              ))
+            ) : (
+              <Typography variant="subtitle1" align="center">
+                No transactions available.
+              </Typography>
+            )}
+          </Box>
+
+          {/* <Box sx={{ mt: 2 }}>
             {filteredTransactions.map((entry) => (
               <Box
                 key={`${entry.type}-${entry.id}`}
@@ -116,7 +180,7 @@ const EntriesListComponent = ({ activePage }) => {
                   </Typography>
                 </Box>
 
-                {/* Action Buttons */}
+                
                 <Box sx={{ display: "flex", gap: 1 }}>
                   <Button
                     variant="contained"
@@ -137,7 +201,7 @@ const EntriesListComponent = ({ activePage }) => {
                 </Box>
               </Box>
             ))}
-          </Box>
+          </Box> */}
         </Paper>
 
         <Modal open={open} onClose={handleClose} aria-labelledby="update-modal">

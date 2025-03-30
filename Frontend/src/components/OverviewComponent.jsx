@@ -57,15 +57,17 @@ const OverviewComponent = () => {
     fetchTransactions();
   }, [fetchOverviewData, fetchTransactions]);
 
-  const filteredTransactions = transactions.filter((tx) => {
-    const matchesType = filterType === "all" || tx.type === filterType;
-    const matchesCategory =
-      filterCategory === "all" || tx.category === filterCategory;
-    const matchesSearch = tx.description
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    return matchesType && matchesCategory && matchesSearch;
-  });
+  const filteredTransactions = Array.isArray(transactions)
+    ? transactions.filter((tx) => {
+        const matchesType = filterType === "all" || tx.type === filterType;
+        const matchesCategory =
+          filterCategory === "all" || tx.category === filterCategory;
+        const matchesSearch = tx.description
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+        return matchesType && matchesCategory && matchesSearch;
+      })
+    : [];
 
   const transitions = useTransition(filteredTransactions, {
     keys: (tx) => `${tx.type}-${tx.id}`,
@@ -97,11 +99,20 @@ const OverviewComponent = () => {
     { name: "Balance", value: balance },
   ];
 
-  const barData = monthlyData.slice(1).map((item) => ({
-    name: item[0],
-    income: item[1],
-    expenses: item[2],
-  }));
+  const barData =
+    monthlyData && monthlyData.length > 1
+      ? monthlyData.slice(1).map((item) => {
+          // Ensure item has the necessary elements before accessing them.
+          const name = item[0] !== undefined ? item[0] : "";
+          const income = item[1] !== undefined ? item[1] : 0;
+          const expenses = item[2] !== undefined ? item[2] : 0;
+          return {
+            name: name,
+            income: income,
+            expenses: expenses,
+          };
+        })
+      : [];
 
   if (loading) {
     return <div>Loading financial data...</div>;
@@ -140,7 +151,7 @@ const OverviewComponent = () => {
         <Paper sx={{ p: 3, boxShadow: 3, borderRadius: 2 }}>
           <Typography variant="h6">Total Balance</Typography>
           <Typography variant="h5" sx={{ mt: 2 }}>
-            ${balance}
+            ${balance || 0}
           </Typography>
         </Paper>
       </Grid>
@@ -148,7 +159,7 @@ const OverviewComponent = () => {
         <Paper sx={{ p: 3, boxShadow: 3, borderRadius: 2 }}>
           <Typography variant="h6">Total Income</Typography>
           <Typography variant="h5" sx={{ mt: 2, color: "green" }}>
-            ${income}
+            ${income || 0}
           </Typography>
         </Paper>
       </Grid>
@@ -156,7 +167,7 @@ const OverviewComponent = () => {
         <Paper sx={{ p: 3, boxShadow: 3, borderRadius: 2 }}>
           <Typography variant="h6">Total Expenses</Typography>
           <Typography variant="h5" sx={{ mt: 2, color: "red" }}>
-            ${expenses}
+            ${expenses || 0}
           </Typography>
         </Paper>
       </Grid>

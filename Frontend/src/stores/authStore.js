@@ -8,6 +8,8 @@ import {
 import { auth } from "../firebaseConfig";
 import axios from "axios";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const useAuthStore = create((set) => ({
   error: "",
   success: "",
@@ -25,9 +27,8 @@ const useAuthStore = create((set) => ({
 
       const token = await user.getIdToken();
 
-      // Use token immediately for backend verification
       await axios.post(
-        "http://localhost:8081/api/auth/verify",
+        `${BACKEND_URL}/api/auth/verify`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -39,26 +40,6 @@ const useAuthStore = create((set) => ({
       set({ loading: false });
     }
   },
-
-  // googleSignIn: async (navigate) => {
-  //   const provider = new GoogleAuthProvider();
-  //   try {
-  //     const result = await signInWithPopup(auth, provider);
-  //     const user = result.user;
-
-  //     const token = await user.getIdToken();
-  //     await axios.post(
-  //       "http://localhost:8081/api/auth/verify",
-  //       {},
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     );
-
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.error("Google Sign-In Error:", error.message);
-  //     set({ error: "Google sign-in failed" });
-  //   }
-  // },
 
   // In useAuthStore's googleSignIn
   googleSignIn: async (navigate) => {
@@ -73,7 +54,7 @@ const useAuthStore = create((set) => ({
       console.log(user);
       const token = await user.getIdToken();
       await axios.post(
-        "http://localhost:8081/api/auth/verify",
+        `${BACKEND_URL}/api/auth/verify`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
